@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Be Online | أحمد عماد</title>
+    <style>
+        :root {
+            --bg: #06060d;
+            --bg2: #0c0c18;
+            --glass-1: rgba(255, 255, 255, 0.025);
+            --glass-2: rgba(255, 255, 255, 0.04);
+            --glass-3: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.07);
+            --glass-border-hover: rgba(255, 255, 255, 0.14);
+            --accent-cyan: #00c6ff;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-emerald: #00e676;
+            --accent-rose: #f43f5e;
+            --text: #eaeaef;
+            --text-secondary: #a0a0b8;
+            --text-muted: #6b6b80;
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --input-focus: rgba(255, 255, 255, 0.07);
+            --shadow-xl: 0 25px 60px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --radius-2xl: 28px;
+            --radius-xl: 20px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --radius-full: 9999px;
+            --font-display: 'SF Pro Display', 'Segoe UI', 'Cairo', system-ui, -apple-system, sans-serif;
+            --font-body: 'SF Pro Text', 'Segoe UI', 'Cairo', system-ui, -apple-system, sans-serif;
+            --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', 'Cascadia Code', 'Courier New', monospace;
+            --transition-smooth: 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+            --transition-bounce: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            background-image:
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 180, 255, 0.06) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 50% at 80% 100%, rgba(0, 230, 118, 0.04) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 20% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 70%);
+            color: var(--text);
+            font-family: var(--font-body);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: -0.01em;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(100px);
+            opacity: 0.25;
+            animation: floatOrb 20s ease-in-out infinite;
+        }
+        body::before {
+            width: 350px;
+            height: 350px;
+            background: rgba(0, 180, 255, 0.12);
+            top: -120px;
+            left: -80px;
+        }
+        body::after {
+            width: 280px;
+            height: 280px;
+            background: rgba(0, 220, 130, 0.1);
+            bottom: -100px;
+            right: -90px;
+            animation-delay: -10s;
+            animation-duration: 24s;
+        }
+        @keyframes floatOrb {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(40px, -30px) scale(1.12);
+            }
+            50% {
+                transform: translate(-20px, 20px) scale(0.92);
+            }
+            75% {
+                transform: translate(30px, 15px) scale(1.06);
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* ─── Header ──────────────────────── */
+        .header {
+            background: var(--glass-1);
+            backdrop-filter: blur(60px);
+            -webkit-backdrop-filter: blur(60px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+            padding: 26px 24px 22px;
+            text-align: center;
+            box-shadow: var(--shadow-xl), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 3px;
+            border-radius: 0 0 3px 3px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+        .header .logo-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, rgba(0, 198, 255, 0.2), rgba(59, 130, 246, 0.15));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+            font-size: 22px;
+            box-shadow: 0 8px 24px rgba(0, 150, 255, 0.2);
+        }
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(160deg, #ffffff 0%, #c8ddf8 30%, #a0d0ff 60%, #e0e8f8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2px;
+        }
+        .header .subtitle {
+            font-size: 11.5px;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+        }
+        .header .subtitle span {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        /* ─── Terminal Log ───────────────── */
+        .terminal {
+            background: #080e14;
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.02), 0 0 40px rgba(0, 180, 255, 0.04);
+            transition: all var(--transition-smooth);
+            position: relative;
+        }
+        .terminal:hover {
+            border-color: var(--glass-border-hover);
+            box-shadow: var(--shadow-xl), inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 0 55px rgba(0, 200, 200, 0.08);
+        }
+        .terminal .term-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.025);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            user-select: none;
+        }
+        .terminal .term-header .dots {
+            display: flex;
+            gap: 7px;
+            flex-shrink: 0;
+        }
+        .terminal .term-header .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            transition: all 0.25s ease;
+            cursor: default;
+            position: relative;
+        }
+        .dot.red {
+            background: #ff5f57;
+            box-shadow: 0 0 8px rgba(255, 95, 87, 0.5);
+        }
+        .dot.yellow {
+            background: #febc2e;
+            box-shadow: 0 0 8px rgba(254, 188, 46, 0.5);
+        }
+        .dot.green {
+            background: #28c840;
+            box-shadow: 0 0 8px rgba(40, 200, 64, 0.5);
+            animation: dotPulse 2.5s ease-in-out infinite;
+        }
+        @keyframes dotPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 6px rgba(40, 200, 64, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 16px rgba(40, 200, 64, 0.85);
+            }
+        }
+        .terminal .term-header .term-title {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.03em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .terminal .term-header .term-title .icon {
+            font-size: 13px;
+        }
+        .terminal .term-body {
+            padding: 12px 14px;
+            max-height: 220px;
+            overflow-y: auto;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            line-height: 1.8;
+            letter-spacing: 0.01em;
+            direction: ltr;
+            text-align: left;
+            scroll-behavior: smooth;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            background:
+                linear-gradient(180deg, rgba(0, 220, 130, 0.015) 0%, transparent 30%),
+                #080e14;
+            position: relative;
+        }
+        .terminal .term-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        .terminal .term-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .terminal .term-body::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+        }
+        .terminal .term-body::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.16);
+        }
+        .term-body .log-line {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            animation: logSlide 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+        }
+        .term-body .log-line .timestamp {
+            color: #5a6a7a;
+            font-size: 10.5px;
+            flex-shrink: 0;
+            min-width: 58px;
+            letter-spacing: 0.02em;
+        }
+        .term-body .log-line .prompt {
+            color: #00e676;
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 12px;
+        }
+        .term-body .log-line .msg {
+            color: #c8ddf8;
+            word-break: break-all;
+            white-space: normal;
+        }
+        .term-body .log-line.info .prompt {
+            color: #60a5fa;
+        }
+        .term-body .log-line.info .msg {
+            color: #b8cfe0;
+        }
+        .term-body .log-line.success .prompt {
+            color: #34d399;
+        }
+        .term-body .log-line.success .msg {
+            color: #a7f3d0;
+        }
+        .term-body .log-line.error .prompt {
+            color: #f87171;
+        }
+        .term-body .log-line.error .msg {
+            color: #fca5a5;
+        }
+        .term-body .log-line.warn .prompt {
+            color: #fbbf24;
+        }
+        .term-body .log-line.warn .msg {
+            color: #fde68a;
+        }
+        .term-body .log-line .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: #00e676;
+            animation: cursorBlink 0.9s step-end infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+            border-radius: 1px;
+            flex-shrink: 0;
+            align-self: center;
+        }
+        .term-body .log-line:last-child .cursor {
+            display: inline-block;
+        }
+        .term-body .log-line:not(:last-child) .cursor {
+            display: none;
+        }
+        @keyframes cursorBlink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+        @keyframes logSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .term-body .empty-log {
+            color: #3a4a5a;
+            text-align: center;
+            font-style: italic;
+            padding: 16px 0;
+            letter-spacing: 0.03em;
+            animation: none;
+        }
+
+        /* ─── Section Cards ──────────────── */
+        .section {
+            background: var(--glass-2);
+            backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 20px 18px 18px;
+            box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+            transition: all var(--transition-smooth);
+            position: relative;
+        }
+        .section:hover {
+            border-color: var(--glass-border-hover);
+            box-shadow: var(--shadow-xl), inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 0 60px rgba(100, 160, 255, 0.05);
+        }
+        .section .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .section .section-header .icon-circle {
+            width: 34px;
+            height: 34px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+        .icon-circle.blue {
+            background: rgba(0, 180, 255, 0.15);
+            color: var(--accent-cyan);
+            box-shadow: 0 0 18px rgba(0, 180, 255, 0.2);
+        }
+        .icon-circle.green {
+            background: rgba(0, 230, 118, 0.13);
+            color: var(--accent-emerald);
+            box-shadow: 0 0 18px rgba(0, 230, 118, 0.18);
+        }
+        .section .section-header h3 {
+            font-family: var(--font-display);
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--text);
+        }
+        .section .badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .badge.priority {
+            background: rgba(0, 200, 255, 0.12);
+            color: #80d8ff;
+        }
+
+        /* ─── Input Fields ───────────────── */
+        .input-group {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .input-group:last-of-type {
+            margin-bottom: 14px;
+        }
+        .input-group .input-icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: color var(--transition-smooth);
+            z-index: 2;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 13px 40px 13px 14px;
+            border-radius: var(--radius-lg);
+            border: 1.5px solid rgba(255, 255, 255, 0.07);
+            background: var(--input-bg);
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 400;
+            outline: none;
+            transition: all var(--transition-smooth);
+            letter-spacing: -0.01em;
+            position: relative;
+            z-index: 1;
+        }
+        .input-group input::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: 0.01em;
+        }
+        .input-group input:focus {
+            border-color: rgba(255, 255, 255, 0.22);
+            background: var(--input-focus);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.02), 0 0 20px rgba(100, 160, 255, 0.06);
+            outline: none;
+        }
+        .input-group input:focus~.input-icon {
+            color: #b0c8e8;
+        }
+
+        /* ─── Buttons ────────────────────── */
+        button {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-lg);
+            border: none;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            color: #fff;
+            transition: all var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        button::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+        button:active {
+            transform: scale(0.96);
+            transition: all 0.1s ease;
+        }
+
+        .btn-manual {
+            background: linear-gradient(145deg, #2563eb, #1d4ed8, #1e40af);
+            box-shadow: 0 8px 28px rgba(37, 99, 235, 0.35), 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        .btn-manual:hover {
+            box-shadow: 0 14px 36px rgba(37, 99, 235, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+        }
+        .btn-manual:active {
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-upload {
+            background: linear-gradient(145deg, #059669, #047857, #065f46);
+            box-shadow: 0 8px 28px rgba(5, 150, 105, 0.35), 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        .btn-upload:hover {
+            box-shadow: 0 14px 36px rgba(5, 150, 105, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+        }
+        .btn-upload:active {
+            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+        }
+        .btn-upload .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: pulse 1.4s ease-in-out infinite;
+            box-shadow: 0 0 10px #00ff88;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.7);
+            }
+        }
+
+        /* ─── Status Box ────────────────── */
+        .status {
+            background: var(--glass-3);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 15px 18px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            letter-spacing: -0.01em;
+            transition: all var(--transition-smooth);
+            box-shadow: var(--shadow-md);
+            color: var(--text-secondary);
+        }
+        .status .status-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .status.idle {
+            border-color: rgba(255, 255, 255, 0.06);
+            color: var(--text-muted);
+        }
+        .status.loading {
+            color: #80d8ff;
+            border-color: rgba(120, 210, 255, 0.2);
+            box-shadow: 0 0 24px rgba(0, 180, 255, 0.1);
+            animation: shimmerBg 2s ease-in-out infinite;
+        }
+        .status.success {
+            color: #6ee7b7;
+            border-color: rgba(110, 231, 183, 0.25);
+            box-shadow: 0 0 24px rgba(0, 220, 130, 0.12);
+        }
+        .status.error {
+            color: #fca5a5;
+            border-color: rgba(252, 165, 165, 0.25);
+            box-shadow: 0 0 24px rgba(255, 80, 100, 0.1);
+        }
+        @keyframes shimmerBg {
+            0%,
+            100% {
+                background: var(--glass-3);
+            }
+            50% {
+                background: rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        /* ─── Divider ───────────────────── */
+        .divider-ornament {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 8px;
+        }
+        .divider-ornament .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+        }
+        .divider-ornament .diamond {
+            width: 6px;
+            height: 6px;
+            transform: rotate(45deg);
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 1px;
+            flex-shrink: 0;
+        }
+
+        /* ─── Responsive ────────────────── */
+        @media (max-width: 380px) {
+            .container {
+                gap: 12px;
+            }
+            .section {
+                padding: 16px 14px 14px;
+            }
+            .header {
+                padding: 20px 16px 18px;
+            }
+            .header h1 {
+                font-size: 22px;
+            }
+            button {
+                font-size: 13px;
+                padding: 12px;
+            }
+            .input-group input {
+                padding: 11px 36px 11px 12px;
+                font-size: 13px;
+            }
+            .terminal .term-body {
+                max-height: 170px;
+                font-size: 11px;
+                padding: 10px 12px;
+            }
+            .term-body .log-line .timestamp {
+                font-size: 9.5px;
+                min-width: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- الهيدر -->
+        <div class="header">
+            <div class="logo-icon">⚡</div>
+            <h1>Be Online</h1>
+            <p class="subtitle">ONU PRO TOOL <span>made with❤️ahmed imad</span></p>
+        </div>
+
+        <!-- ─── terminal log (Linux style) ─── -->
+        <div class="terminal" id="terminal">
+            <div class="term-header">
+                <div class="dots">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <div class="term-title">
+                    <span class="icon">📟</span> سجل الأوامر — root@beonline
+                </div>
+            </div>
+            <div class="term-body" id="termBody">
+                <div class="log-line info empty-log">
+                    <span class="timestamp">--:--:--</span>
+                    <span class="prompt">●</span>
+                    <span class="msg">بانتظار الأوامر…</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- القسم الأول: البرمجة السريعة -->
+        <div class="section">
+            <div class="section-header">
+                <div class="icon-circle green">🛠️</div>
+                <h3>برمجة سريعة</h3>
+                <span class="badge priority">يدوي</span>
+            </div>
+            <div class="input-group">
+                <span class="input-icon">🏷️</span>
+                <input type="text" id="vlan" placeholder="VLAN ID">
+            </div>
+            <div class="input-group">
+                <span class="input-icon">👤</span>
+                <input type="text" id="user" placeholder="User Name">
+            </div>
+            <div class="input-group">
+                <span class="input-icon">🔑</span>
+                <input type="text" id="pass" placeholder="Password">
+            </div>
+            <button class="btn-manual" onclick="runManual()">
+                <span>⚙️</span> ابدأ البرمجة
+            </button>
+        </div>
+
+        <!-- فاصل زخرفي -->
+        <div class="divider-ornament">
+            <span class="line"></span><span class="diamond"></span><span class="line"></span>
+        </div>
+
+        <!-- القسم الثاني: الرفع المباشر -->
+        <div class="section">
+            <div class="section-header">
+                <div class="icon-circle blue">☁️</div>
+                <h3>الرفع المباشر</h3>
+                <span class="badge">تلقائي</span>
+            </div>
+            <button class="btn-upload" onclick="startStream('/stream_upload')">
+                <span class="pulse-dot"></span> بدء رفع الكونفك
+            </button>
+        </div>
+
+        <!-- حالة الاتصال -->
+        <div id="statusBox" class="status idle">
+            <span class="status-icon">📡</span> جاهز للعمل
+        </div>
+    </div>
+
+    <script>
+        // ─── Terminal Log Engine ─────────────────
+        const termBody = document.getElementById('termBody');
+        let logCounter = 0;
+        const MAX_LOG_LINES = 80;
+
+        function getTimeStamp() {
+            const now = new Date();
+            return [
+                String(now.getHours()).padStart(2, '0'),
+                String(now.getMinutes()).padStart(2, '0'),
+                String(now.getSeconds()).padStart(2, '0')
+            ].join(':');
+        }
+
+        function logToTerminal(msg, type = 'info') {
+            // إزالة رسالة "بانتظار الأوامر" إذا كانت موجودة
+            const emptyEl = termBody.querySelector('.empty-log');
+            if (emptyEl) emptyEl.remove();
+
+            const promptMap = {
+                info: '~',
+                success: '+',
+                error: '!',
+                warn: '⚠'
+            };
+            const prompt = promptMap[type] || '~';
+            const timestamp = getTimeStamp();
+
+            const line = document.createElement('div');
+            line.className = 'log-line ' + type;
+            line.innerHTML =
+                '<span class="timestamp">[' + timestamp + ']</span>' +
+                '<span class="prompt">' + prompt + '</span>' +
+                '<span class="msg">' + escapeHtml(msg) + '</span>' +
+                '<span class="cursor"></span>';
+
+            termBody.appendChild(line);
+
+            // إزالة الكرسور من السطر السابق
+            const allLines = termBody.querySelectorAll('.log-line');
+            if (allLines.length > 1) {
+                const prevLine = allLines[allLines.length - 2];
+                const prevCursor = prevLine.querySelector('.cursor');
+                if (prevCursor) prevCursor.remove();
+            }
+
+            logCounter++;
+
+            // تنظيف السجلات القديمة إذا تجاوزت الحد
+            while (termBody.querySelectorAll('.log-line').length > MAX_LOG_LINES) {
+                const firstLine = termBody.querySelector('.log-line');
+                if (firstLine) firstLine.remove();
+            }
+
+            // تمرير تلقائي للأسفل
+            termBody.scrollTop = termBody.scrollHeight;
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // ─── Status Box (المنطق الأصلي بدون تغيير) ─────────────────
+        function setStatus(type, msg) {
+            const b = document.getElementById('statusBox');
+            b.className = 'status ' + type;
+            const iconMap = {
+                idle: '📡',
+                loading: '⏳',
+                success: '✅',
+                error: '❌'
+            };
+            const icon = iconMap[type] || '📡';
+            b.innerHTML = '<span class="status-icon">' + icon + '</span> ' + msg;
+        }
+
+        // ─── دمج السجل مع الـ status ─────────────────
+        function setStatusAndLog(type, msg) {
+            setStatus(type, msg);
+            // إرسال أيضاً إلى التيرمنل
+            const logTypeMap = {
+                idle: 'info',
+                loading: 'info',
+                success: 'success',
+                error: 'error'
+            };
+            const logType = logTypeMap[type] || 'info';
+            logToTerminal(msg, logType);
+        }
+
+        // ─── startStream (المنطق الأصلي + تغذية التيرمنل) ─────────────────
+        function startStream(url) {
+            setStatusAndLog('loading', '⚡ جاري الاتصال بالسيرفر...');
+            logToTerminal('فتح قناة اتصال: ' + url, 'info');
+
+            const eventSource = new EventSource(url);
+
+            eventSource.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+                if (data.message.includes("✅")) {
+                    setStatusAndLog('success', data.message);
+                    logToTerminal('اكتملت العملية بنجاح ✓', 'success');
+                    eventSource.close();
+                } else if (data.message.includes("❌")) {
+                    setStatusAndLog('error', data.message);
+                    logToTerminal('فشلت العملية ✗', 'error');
+                    eventSource.close();
+                } else {
+                    setStatusAndLog('loading', data.message);
+                }
+            };
+
+            eventSource.onerror = function() {
+                setStatusAndLog('error', '🔌 انقطع الاتصال بالأورانج باي');
+                logToTerminal('انقطع الاتصال - تأكد من تشغيل السيرفر', 'error');
+                eventSource.close();
+            };
+        }
+
+        // ─── runManual (المنطق الأصلي + تغذية التيرمنل) ─────────────────
+        function runManual() {
+            const v = document.getElementById('vlan').value;
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+
+            if (!v || !u || !p) {
+                const warnMsg = '⚠️ أملأ جميع الحقول من فضلك!';
+                setStatus('error', warnMsg);
+                logToTerminal(warnMsg, 'warn');
+                return;
+            }
+
+            logToTerminal('إعدادات يدوية → VLAN: ' + v + ' | User: ' + u + ' | Pass: ****', 'info');
+            const url = '/stream_manual?vlan=' + encodeURIComponent(v) +
+                '&user=' + encodeURIComponent(u) +
+                '&pass=' + encodeURIComponent(p);
+            startStream(url);
+        }
+
+        // ─── إزالة كلاس الـ idle عند أول تفاعل ─────────────────
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const statusBox = document.getElementById('statusBox');
+                if (statusBox.classList.contains('idle')) {
+                    statusBox.classList.remove('idle');
+                }
+            });
+        });
+
+        // ─── رسالة ترحيبية في التيرمنل عند التحميل ─────────────────
+        (function initTerminal() {
+            const emptyEl = termBody.querySelector('.empty-log');
+            if (emptyEl) emptyEl.remove();
+            logToTerminal('⚡ تم تشغيل واجهة Be Online', 'success');
+            logToTerminal('السيرفر: root@beonline — جاهز لاستقبال الأوامر', 'info');
+            logToTerminal('انتظر إدخال بيانات أو اضغط على الرفع المباشر', 'info');
+        })();
+    </script>
+</body>
+</html>
