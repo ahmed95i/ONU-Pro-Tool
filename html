@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONU Pro Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; margin: 20px; text-align: center; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 500px; margin: auto; margin-bottom: 20px; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
+        button { background-color: #27ae60; color: white; border: none; padding: 12px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; width: 94%; }
+        button:hover { background-color: #219150; }
+        #console { background: #2c3e50; color: #2ecc71; padding: 15px; border-radius: 5px; text-align: left; max-width: 500px; margin: auto; height: 150px; overflow-y: auto; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>🚀 ONU Pro Tool v2.0</h1>
+    <div class="card">
+        <h3>🎯 الخيار الأول: الرفع التلقائي لملف الكونفك</h3>
+        <button onclick="startUpload()">ابدأ رفع ملف XML</button>
+    </div>
+    <div class="card">
+        <h3>🌐 الخيار الثاني: البرمجة السريعة يدويًا</h3>
+        <input type="text" id="vlan" placeholder="رقم الـ VLAN">
+        <input type="text" id="user" placeholder="اسم مستخدم الاشتراك PPPoE">
+        <input type="password" id="pass" placeholder="كلمة المرور">
+        <button onclick="startManual()" style="background-color: #2980b9;">ابدأ البرمجة اليدوية</button>
+    </div>
+    <h3>🖥️ شاشة المراقبة الحية (الميدان)</h3>
+    <div id="console">بانتظار تنفيذ عملية...</div>
+    <script>
+        let eventSource;
+        const consoleDiv = document.getElementById('console');
+        function log(msg) {
+            consoleDiv.innerHTML += "<br>> " + msg;
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+        function startUpload() {
+            consoleDiv.innerHTML = "بدء عملية رفع الملف...";
+            if(eventSource) eventSource.close();
+            eventSource = new EventSource('/stream_upload');
+            eventSource.onmessage = function(e) { log(JSON.parse(e.data).message); };
+        }
+        function startManual() {
+            const vlan = document.getElementById('vlan').value;
+            const user = document.getElementById('user').value;
+            const pass = document.getElementById('pass').value;
+            consoleDiv.innerHTML = "بدء البرمجة اليدوية المباشرة...";
+            if(eventSource) eventSource.close();
+            eventSource = new EventSource(`/stream_manual?vlan=${vlan}&user=${user}&pass=${pass}`);
+            eventSource.onmessage = function(e) { log(JSON.parse(e.data).message); };
+        }
+    </script>
+</body>
+</html>
