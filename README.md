@@ -71,9 +71,10 @@ sudo systemctl start onu_automation
 
 * **Connect:** Power the Orange Pi via a small power bank, and hook up a patch cord from the Pi's LAN port to the Huawei ONU.
 * **​Access:** Connect your smartphone to the ONU-Tool-Pro Wi-Fi network and browse to http://10.42.0.1:5000.
+* **Or:** download app onu pro tool
 ​* **Execute:** Trigger the script from the web UI, watch the log stream finish in 4 seconds
 ## ​🔮Future Improvements
-* **​[done]** Migrated from Selenium to raw HTTP requests for instant speed.
-* **​[soon]** Multi-vendor ONU support (ZTE / FiberHome / Nokia).
-* **​[soon]** Smart retry loop algorithms for unstable physical connections.
-* **​[soon]** Remote management over net to onu or routers 
+* **​[✅️]** Migrated from Selenium to raw HTTP requests for instant speed.
+* **​[☑️]** Multi-vendor ONU support (ZTE / FiberHome / Nokia).
+* **​[☑️]** Smart retry loop algorithms for unstable physical connections.
+* **​[☑️]** Remote management over net to onu or routers 
